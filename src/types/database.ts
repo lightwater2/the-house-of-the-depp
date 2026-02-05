@@ -78,6 +78,36 @@ export interface Database {
         };
         Relationships: [];
       };
+      researches: {
+        Row: {
+          id: string;
+          title: string;
+          description: string | null;
+          tech_stack: string[];
+          github_url: string | null;
+          category: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          description?: string | null;
+          tech_stack?: string[];
+          github_url?: string | null;
+          category?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          description?: string | null;
+          tech_stack?: string[];
+          github_url?: string | null;
+          category?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
       page_views: {
         Row: {
           id: string;
@@ -117,3 +147,7 @@ export type PostUpdate = Database['public']['Tables']['posts']['Update'];
 export type Project = Database['public']['Tables']['projects']['Row'];
 export type ProjectInsert = Database['public']['Tables']['projects']['Insert'];
 export type ProjectUpdate = Database['public']['Tables']['projects']['Update'];
+
+export type Research = Database['public']['Tables']['researches']['Row'];
+export type ResearchInsert = Database['public']['Tables']['researches']['Insert'];
+export type ResearchUpdate = Database['public']['Tables']['researches']['Update'];

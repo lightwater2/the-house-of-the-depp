@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import type { Post, PostInsert, Project, ProjectInsert } from '@/types/database';
+import type { Post, PostInsert, Project, ProjectInsert, Research, ResearchInsert } from '@/types/database';
 
-type Tab = 'posts' | 'projects';
+type Tab = 'posts' | 'projects' | 'researches';
 
 const inputClass = 'w-full rounded border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none';
 const btnPrimary = 'rounded bg-accent px-4 py-2 text-sm font-medium text-background';
@@ -19,6 +19,8 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [editingPost, setEditingPost] = useState<Post | null>(null);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [researches, setResearches] = useState<Research[]>([]);
+  const [editingResearch, setEditingResearch] = useState<Research | null>(null);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,9 +45,12 @@ export default function AdminPage() {
     if (activeTab === 'posts') {
       const { data } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
       setPosts(data ?? []);
-    } else {
+    } else if (activeTab === 'projects') {
       const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
       setProjects(data ?? []);
+    } else {
+      const { data } = await supabase.from('researches').select('*').order('created_at', { ascending: false });
+      setResearches(data ?? []);
     }
     setIsLoading(false);
   };
@@ -73,7 +78,7 @@ export default function AdminPage() {
       </div>
 
       <div className="mb-6 flex gap-4 border-b border-border">
-        {(['posts', 'projects'] as Tab[]).map((tab) => (
+        {(['posts', 'projects', 'researches'] as Tab[]).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -84,10 +89,14 @@ export default function AdminPage() {
         ))}
       </div>
 
-      {activeTab === 'posts' ? (
+      {activeTab === 'posts' && (
         <PostsManager posts={posts} isLoading={isLoading} onRefresh={fetchData} editingPost={editingPost} setEditingPost={setEditingPost} />
-      ) : (
+      )}
+      {activeTab === 'projects' && (
         <ProjectsManager projects={projects} isLoading={isLoading} onRefresh={fetchData} editingProject={editingProject} setEditingProject={setEditingProject} />
+      )}
+      {activeTab === 'researches' && (
+        <ResearchesManager researches={researches} isLoading={isLoading} onRefresh={fetchData} editingResearch={editingResearch} setEditingResearch={setEditingResearch} />
       )}
     </div>
   );
@@ -240,6 +249,87 @@ function ProjectsManager({ projects, isLoading, onRefresh, editingProject, setEd
               <div className="flex items-center gap-3 text-sm">
                 <button onClick={() => setEditingProject(project)} className={btnMuted}>Edit</button>
                 <button onClick={() => handleDelete(project.id)} className="text-sm text-red-500">Del</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ResearchesManager({ researches, isLoading, onRefresh, editingResearch, setEditingResearch }: {
+  researches: Research[]; isLoading: boolean; onRefresh: () => void;
+  editingResearch: Research | null; setEditingResearch: (r: Research | null) => void;
+}) {
+  const [showForm, setShowForm] = useState(false);
+  const emptyForm: ResearchInsert = { title: '', description: '', tech_stack: [], github_url: '', category: '' };
+  const [formData, setFormData] = useState<ResearchInsert>(emptyForm);
+  const [techInput, setTechInput] = useState('');
+
+  useEffect(() => { if (editingResearch) { setFormData(editingResearch); setShowForm(true); } }, [editingResearch]);
+
+  const reset = () => { setShowForm(false); setEditingResearch(null); setFormData(emptyForm); };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const payload = { title: formData.title, description: formData.description, tech_stack: formData.tech_stack, github_url: formData.github_url, category: formData.category };
+    if (editingResearch) {
+      await supabase.from('researches').update(payload).eq('id', editingResearch.id);
+    } else {
+      await supabase.from('researches').insert(payload);
+    }
+    reset(); onRefresh();
+  };
+
+  const handleDelete = async (id: string) => { if (confirm('Delete?')) { await supabase.from('researches').delete().eq('id', id); onRefresh(); } };
+
+  const addTech = () => { if (techInput.trim()) { setFormData({ ...formData, tech_stack: [...(formData.tech_stack || []), techInput.trim()] }); setTechInput(''); } };
+  const removeTech = (i: number) => { setFormData({ ...formData, tech_stack: formData.tech_stack?.filter((_, idx) => idx !== i) }); };
+
+  return (
+    <div>
+      <button onClick={() => { showForm ? reset() : setShowForm(true); }} className={btnPrimary + ' mb-6'}>
+        {showForm ? 'Cancel' : 'New Research'}
+      </button>
+
+      {showForm && (
+        <form onSubmit={handleSubmit} className="mb-8 space-y-3 rounded border border-border p-4">
+          <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="Title" className={inputClass} required />
+          <textarea value={formData.description ?? ''} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Description" rows={3} className={inputClass} />
+          <input type="text" value={formData.category ?? ''} onChange={(e) => setFormData({ ...formData, category: e.target.value })} placeholder="Category (e.g. experiment, prototype)" className={inputClass} />
+          <div>
+            <div className="flex gap-2">
+              <input type="text" value={techInput} onChange={(e) => setTechInput(e.target.value)} placeholder="Add tech" className={inputClass} />
+              <button type="button" onClick={addTech} className="shrink-0 rounded border border-border px-3 py-2 text-sm text-muted">Add</button>
+            </div>
+            {formData.tech_stack && formData.tech_stack.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-1">
+                {formData.tech_stack.map((tech, i) => (
+                  <span key={i} className="inline-flex items-center gap-1 text-xs text-muted">
+                    {tech}<button type="button" onClick={() => removeTech(i)} className="hover:text-foreground">x</button>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+          <input type="url" value={formData.github_url ?? ''} onChange={(e) => setFormData({ ...formData, github_url: e.target.value })} placeholder="GitHub URL" className={inputClass} />
+          <button type="submit" className={btnPrimary}>{editingResearch ? 'Update' : 'Create'}</button>
+        </form>
+      )}
+
+      {isLoading ? <p className="text-sm text-muted">Loading...</p> : (
+        <div className="divide-y divide-border">
+          {researches.map((r) => (
+            <div key={r.id} className="flex items-center justify-between py-3">
+              <div>
+                <span className="text-sm font-medium">{r.title}</span>
+                {r.category && <span className="ml-2 text-xs text-accent">{r.category}</span>}
+                <span className="ml-2 text-xs text-muted">{r.tech_stack?.join(', ')}</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm">
+                <button onClick={() => setEditingResearch(r)} className={btnMuted}>Edit</button>
+                <button onClick={() => handleDelete(r.id)} className="text-sm text-red-500">Del</button>
               </div>
             </div>
           ))}
