@@ -44,6 +44,22 @@ Use for reflecting on completed projects.
 - Timeline comparison
 - Lessons learned
 
+### 📚 `library-review.md` - Library/Framework Review
+Use for in-depth reviews of libraries, frameworks, or tools.
+
+**Best for:**
+- Library comparisons
+- Framework evaluations
+- Tool assessments
+- Technical research
+
+**Includes:**
+- Feature breakdown
+- Pros & cons
+- Comparison with alternatives
+- Performance benchmarks
+- Verdict & recommendations
+
 ## How to Use
 
 1. **Copy the template:**
