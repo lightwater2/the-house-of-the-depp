@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "analyze": "next experimental-analyze"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.95.0",
@@ -17,6 +18,7 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.1.6",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

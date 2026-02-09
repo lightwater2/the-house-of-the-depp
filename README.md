@@ -154,6 +154,7 @@ This project is automatically deployed to Vercel via GitHub integration.
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
+- `./scripts/bundle-size-check.sh` - Check bundle sizes after build (run after `npm run build`)
 
 ### Adding New Features
 
