@@ -60,6 +60,71 @@ Use for in-depth reviews of libraries, frameworks, or tools.
 - Performance benchmarks
 - Verdict & recommendations
 
+### 🔬 `technical-deep-dive.md` - Technical Deep Dive
+Use for in-depth exploration of complex topics and implementations.
+
+**Best for:**
+- Architecture deep dives
+- Performance analysis
+- System design explanations
+- Advanced concepts
+
+**Includes:**
+- Architecture diagrams
+- Implementation details
+- Performance benchmarks
+- Edge cases & error handling
+- Production considerations
+
+### 💡 `quick-tips.md` - Quick Tips
+Use for actionable, copy-paste ready tips and tricks.
+
+**Best for:**
+- Small optimizations
+- Code snippets
+- Quick wins
+- Time-savers
+
+**Includes:**
+- Problem statement
+- One-line solution
+- Before/after code
+- Benefits summary
+- 2-3 minute read time
+
+### 🚀 `project-showcase.md` - Project Showcase
+Use for presenting and documenting projects.
+
+**Best for:**
+- Launch announcements
+- Portfolio pieces
+- Open source releases
+- Experiment writeups
+
+**Includes:**
+- Project overview & motivation
+- Tech stack details
+- Key features with code
+- Development journey
+- Performance metrics
+- Screenshots/demos
+
+### 🔌 `api-tutorial.md` - API Integration Tutorial
+Use for step-by-step API integration guides.
+
+**Best for:**
+- Third-party API setups
+- REST/GraphQL tutorials
+- Authentication flows
+- Real-world API examples
+
+**Includes:**
+- API setup & authentication
+- Core CRUD operations
+- Advanced patterns (pagination, caching)
+- Error handling & best practices
+- Common pitfalls
+
 ## How to Use
 
 1. **Copy the template:**
