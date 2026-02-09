@@ -1,4 +1,5 @@
 import type { Project } from '@/types/database';
+import { ExternalLink } from 'lucide-react';
 
 interface ProjectCardProps {
   project: Project;
@@ -37,9 +38,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             href={project.github_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-muted hover:text-accent transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-muted hover:text-accent transition-colors"
+            aria-label={`${project.title} - View code on GitHub`}
           >
             Code
+            <ExternalLink className="h-3 w-3" />
           </a>
         )}
         {project.demo_url && (
@@ -47,9 +50,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             href={project.demo_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-muted hover:text-accent transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-muted hover:text-accent transition-colors"
+            aria-label={`${project.title} - View live demo`}
           >
             Demo
+            <ExternalLink className="h-3 w-3" />
           </a>
         )}
       </div>

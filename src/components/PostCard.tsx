@@ -32,7 +32,7 @@ export default function PostCard({ post }: PostCardProps) {
         </div>
       </div>
       {post.excerpt && (
-        <p className="mt-1 text-sm text-muted line-clamp-1">{post.excerpt}</p>
+        <p className="mt-2 text-sm text-muted line-clamp-2">{post.excerpt}</p>
       )}
     </Link>
   );
