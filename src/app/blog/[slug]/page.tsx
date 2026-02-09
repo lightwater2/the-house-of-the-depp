@@ -25,9 +25,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) return { title: 'Not Found' };
+
+  const baseUrl = 'https://the-house-of-the-depp.vercel.app';
+  const ogImageUrl = `${baseUrl}/api/og?title=${encodeURIComponent(post.title)}`;
+  const description = post.excerpt || post.content.slice(0, 160);
+
   return {
     title: post.title,
-    description: post.excerpt || post.content.slice(0, 160),
+    description,
+    openGraph: {
+      title: post.title,
+      description,
+      type: 'article',
+      ...(post.published_at && { publishedTime: post.published_at }),
+      url: `${baseUrl}/blog/${slug}`,
+      siteName: 'the-house-of-the-depp',
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description,
+      images: [ogImageUrl],
+    },
   };
 }
 
