@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-02-10T00:19:05.298Z",
+  "totalTests": 11,
+  "passed": 11,
+  "failed": 0,
+  "warnings": 0,
+  "details": {
+    "passed": [
+      {
+        "name": "Connection established",
+        "details": "110ms"
+      },
+      {
+        "name": "Query posts",
+        "details": "Data fetched successfully"
+      },
+      {
+        "name": "Query projects",
+        "details": "Data fetched successfully"
+      },
+      {
+        "name": "Query researches",
+        "details": "Data fetched successfully"
+      },
+      {
+        "name": "Non-existent post handling",
+        "details": "Returns empty array"
+      },
+      {
+        "name": "Empty slug validation",
+        "details": "Correctly rejected"
+      },
+      {
+        "name": "RLS: Read published posts",
+        "details": "Anyone can read published posts"
+      },
+      {
+        "name": "View count increment",
+        "details": "Incremented from 0 to 1"
+      },
+      {
+        "name": "Large query performance",
+        "details": "100 posts in 41ms (0.41ms/post)"
+      },
+      {
+        "name": "Duplicate key handling",
+        "details": "Correctly enforces UNIQUE constraint"
+      },
+      {
+        "name": "Concurrent requests",
+        "details": "All 3 queries completed"
+      }
+    ],
+    "failed": [],
+    "warnings": []
+  }
+}
