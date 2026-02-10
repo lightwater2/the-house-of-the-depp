@@ -1,8 +1,13 @@
 import type { Metadata } from 'next';
+import { PersonSchema, BreadcrumbSchema } from '@/components/StructuredData';
+import { generateMetadata as createMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createMetadata({
   title: 'About',
-};
+  description: 'AI와 소프트웨어 개발의 교차점에서 에이전트 기반 시스템을 탐구하는 엔지니어에 대해 알아보세요.',
+  path: '/about',
+  keywords: ['소개', '프로필', '스킬', '연락처'],
+});
 
 const skills: Record<string, string[]> = {
   'Languages': ['TypeScript', 'Python', 'Go', 'Rust'],
@@ -14,8 +19,14 @@ const skills: Record<string, string[]> = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="text-2xl font-bold">About</h1>
+    <>
+      <PersonSchema />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://the-house-of-the-depp.vercel.app' },
+        { name: 'About', url: 'https://the-house-of-the-depp.vercel.app/about' },
+      ]} />
+      <div className="mx-auto max-w-3xl px-6 py-16">
+        <h1 className="text-2xl font-bold">About</h1>
 
       <div className="mt-8 space-y-4 text-muted">
         <p>
@@ -50,6 +61,7 @@ export default function AboutPage() {
           </a>
         </div>
       </section>
-    </div>
+      </div>
+      </>
   );
 }

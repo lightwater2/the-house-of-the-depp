@@ -4,6 +4,14 @@ import PostCard from '@/components/PostCard';
 import ProjectCard from '@/components/ProjectCard';
 import { WebSiteSchema } from '@/components/StructuredData';
 import { ArrowRight } from 'lucide-react';
+import type { Metadata } from 'next';
+import { generateMetadata as createMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = createMetadata({
+  title: 'Home',
+  description: 'AI와 소프트웨어 개발의 교차점에서 에이전트 기반 시스템을 탐구합니다.',
+  keywords: ['홈', '메인', '기술 블로그', '포트폴리오'],
+});
 
 async function getLatestPosts() {
   const { data } = await supabase
