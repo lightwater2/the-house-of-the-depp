@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { supabase } from '@/lib/supabase';
 import ProjectCard from '@/components/ProjectCard';
-import { BreadcrumbSchema } from '@/components/StructuredData';
+import { BreadcrumbSchema, CollectionPageSchema } from '@/components/StructuredData';
 import { generateMetadata as createMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = createMetadata({
@@ -29,6 +29,15 @@ export default async function PortfolioPage() {
         { name: 'Home', url: 'https://the-house-of-the-depp.vercel.app' },
         { name: 'Portfolio', url: 'https://the-house-of-the-depp.vercel.app/portfolio' },
       ]} />
+      <CollectionPageSchema
+        name="Portfolio"
+        description="만들어온 프로젝트들을 소개합니다. Next.js, React, Supabase 등 다양한 기술을 활용한 프로젝트를 확인하세요."
+        items={projects.map(p => ({
+          name: p.title,
+          url: `https://the-house-of-the-depp.vercel.app/portfolio/${p.id}`,
+          description: p.description,
+        }))}
+      />
       <div className="mx-auto max-w-3xl px-6 py-16">
         <h1 className="text-2xl font-bold">Portfolio</h1>
         <p className="mt-2 text-sm text-muted">만들어온 것들.</p>

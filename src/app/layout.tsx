@@ -15,6 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss" />
+        <meta name="theme-color" content="#00ff88" />
+      </head>
       <body>
         <ThemeProvider>{children}</ThemeProvider>
       </body>

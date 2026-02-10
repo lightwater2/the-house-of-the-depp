@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { supabase } from '@/lib/supabase';
 import ResearchCard from '@/components/ResearchCard';
-import { BreadcrumbSchema } from '@/components/StructuredData';
+import { BreadcrumbSchema, CollectionPageSchema } from '@/components/StructuredData';
 import { generateMetadata as createMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = createMetadata({
@@ -28,6 +28,15 @@ export default async function ResearchPage() {
         { name: 'Home', url: 'https://the-house-of-the-depp.vercel.app' },
         { name: 'Research', url: 'https://the-house-of-the-depp.vercel.app/research' },
       ]} />
+      <CollectionPageSchema
+        name="Research"
+        description="리서치 - 실험, 프로토타입, 그리고 탐구한 것들입니다. 새로운 기술과 아이디어를 실험하고 탐구하는 과정을 기록합니다."
+        items={researches.map(r => ({
+          name: r.title,
+          url: `https://the-house-of-the-depp.vercel.app/research/${r.id}`,
+          description: r.description,
+        }))}
+      />
       <div className="mx-auto max-w-3xl px-6 py-16">
         <h1 className="text-2xl font-bold">Research</h1>
         <p className="mt-2 text-sm text-muted">실험, 프로토타입, 그리고 탐구한 것들.</p>

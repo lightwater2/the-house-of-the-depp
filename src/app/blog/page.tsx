@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { supabase } from '@/lib/supabase';
 import PostCard from '@/components/PostCard';
 import { generateMetadata as createMetadata } from '@/lib/seo';
-import { BreadcrumbSchema } from '@/components/StructuredData';
+import { BreadcrumbSchema, CollectionPageSchema } from '@/components/StructuredData';
 
 export const metadata: Metadata = createMetadata({
   title: 'Blog',
@@ -29,6 +29,15 @@ export default async function BlogPage() {
         { name: 'Home', url: 'https://the-house-of-the-depp.vercel.app' },
         { name: 'Blog', url: 'https://the-house-of-the-depp.vercel.app/blog' },
       ]} />
+      <CollectionPageSchema
+        name="Blog"
+        description="기술 블로그 - 생각과 경험을 기록합니다. AI, 소프트웨어 개발, 에이전트 기반 시스템에 대한 글들을 모았습니다."
+        items={posts.map(p => ({
+          name: p.title,
+          url: `https://the-house-of-the-depp.vercel.app/blog/${p.slug}`,
+          description: p.excerpt || p.content.slice(0, 160),
+        }))}
+      />
       <div className="mx-auto max-w-3xl px-6 py-16">
         <h1 className="text-2xl font-bold">Blog</h1>
         <p className="mt-2 text-sm text-muted">생각과 경험을 기록합니다.</p>

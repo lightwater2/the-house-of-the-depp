@@ -70,23 +70,50 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 /**
- * Extract keywords from content
+ * Extract keywords from content with better filtering
  */
 function extractKeywords(content: string): string[] {
+  // Common Korean and English stop words to filter out
+  const stopWords = new Set([
+    '의', '가', '이', '은', '는', '을', '를', '에', '에서', '와', '과',
+    '그', '저', '이', '것', '수', '있다', '없다', '하다', '되다', '되어',
+    'the', 'is', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to',
+    'for', 'of', 'with', 'by', 'as', 'from', 'this', 'that', 'these',
+    'are', 'be', 'have', 'has', 'had', 'been', 'being', 'was', 'were',
+    'it', 'its', 'you', 'your', 'we', 'our', 'they', 'their', 'what',
+    'which', 'who', 'when', 'where', 'why', 'how', 'can', 'will', 'would',
+    'should', 'could', 'may', 'might', 'must', 'shall', '사용', '방법',
+    '예시', '경우', '통해', '위해', '관한', '대한', '다른', '다시',
+  ]);
+
+  // Technical terms to prioritize (related to common tech topics)
+  const techTerms = [
+    'javascript', 'typescript', 'react', 'nextjs', 'nodejs', 'python',
+    'ai', 'machine', 'learning', 'supabase', 'prisma', 'tailwind',
+    'css', 'html', 'database', 'api', 'rest', 'graphql', 'docker',
+    'kubernetes', 'aws', 'vercel', 'github', 'git', 'testing', 'jest',
+    'vitest', 'component', 'hook', 'state', 'effect', 'async', 'await',
+    'function', 'class', 'interface', 'type', 'import', 'export',
+  ];
+
   const words = content
     .toLowerCase()
-    .replace(/[^\w\s가-힣]/g, ' ')
+    // Preserve tech terms by treating common separators
+    .replace(/[^\w\s가-힣가-힣\-_]/g, ' ')
     .split(/\s+/)
-    .filter(word => word.length > 2);
+    .filter(word => word.length > 2)
+    .filter(word => !stopWords.has(word));
 
   const wordCount = new Map<string, number>();
   words.forEach(word => {
-    wordCount.set(word, (wordCount.get(word) || 0) + 1);
+    // Boost count for tech terms
+    const multiplier = techTerms.includes(word) ? 2 : 1;
+    wordCount.set(word, (wordCount.get(word) || 0) + multiplier);
   });
 
   const sortedWords = Array.from(wordCount.entries())
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
+    .slice(0, 8)
     .map(([word]) => word);
 
   return sortedWords;

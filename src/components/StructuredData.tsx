@@ -134,3 +134,32 @@ export function BreadcrumbSchema({
     />
   );
 }
+
+/**
+ * CollectionPage schema for listing pages
+ */
+export function CollectionPageSchema({
+  name,
+  description,
+  items,
+}: {
+  name: string;
+  description: string;
+  items: { name: string; url: string; description?: string }[];
+}) {
+  return (
+    <JsonLd
+      type="CollectionPage"
+      data={{
+        name,
+        description,
+        hasPart: items.map((item) => ({
+          '@type': 'Thing',
+          name: item.name,
+          url: item.url,
+          description: item.description,
+        })),
+      }}
+    />
+  );
+}

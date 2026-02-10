@@ -52,5 +52,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...postRoutes];
+  // Dynamic researches
+  const { data: researches } = await supabase
+    .from('researches')
+    .select('id', { count: 'exact', head: false })
+    .order('created_at', { ascending: false });
+
+  const researchRoutes: MetadataRoute.Sitemap = (researches ?? []).map((research) => ({
+    url: `${baseUrl}/research/${research.id}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.5,
+  }));
+
+  return [...staticRoutes, ...postRoutes, ...researchRoutes];
 }
