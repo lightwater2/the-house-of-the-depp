@@ -1,0 +1,101 @@
+{
+  "timestamp": "2026-02-10T00:26:00Z",
+  "totalTests": 14,
+  "passed": 10,
+  "failed": 4,
+  "warnings": 5,
+  "details": {
+    "passed": [
+      {
+        "name": "Theme toggle ARIA labels",
+        "details": "All buttons have aria-labels"
+      },
+      {
+        "name": "Header mobile menu",
+        "details": "Mobile menu implemented"
+      },
+      {
+        "name": "Header responsive classes",
+        "details": "Tailwind responsive classes detected"
+      },
+      {
+        "name": "Header breakpoints",
+        "details": "Breakpoint logic detected"
+      },
+      {
+        "name": "Admin loading states",
+        "details": "Loading states implemented"
+      },
+      {
+        "name": "Admin form validation",
+        "details": "Form validation present"
+      },
+      {
+        "name": "Route structure",
+        "details": "Found 6/6 expected pages"
+      },
+      {
+        "name": "Static generation",
+        "details": "Generated 0 static files"
+      },
+      {
+        "name": "Bundle size analysis",
+        "details": "Total: 753.21 KB (0.74 MB)"
+      },
+      {
+        "name": "Browser compatibility",
+        "details": "9/9 components are cross-browser compatible"
+      }
+    ],
+    "failed": [
+      {
+        "name": "Theme toggle keyboard navigation",
+        "details": "No keyboard event handlers found"
+      },
+      {
+        "name": "PostCard view count accessibility",
+        "details": "👁 emoji is not screen reader friendly"
+      },
+      {
+        "name": "Semantic HTML",
+        "details": "0/9 components use semantic elements"
+      },
+      {
+        "name": "ARIA attributes",
+        "details": "5/9 components have ARIA"
+      }
+    ],
+    "warnings": [
+      {
+        "name": "Theme toggle keyboard navigation",
+        "details": "Consider adding Cmd+K or similar keyboard shortcuts"
+      },
+      {
+        "name": "PostCard view count accessibility",
+        "details": "Replace emoji with ARIA label or 'X views' text"
+      },
+      {
+        "name": "Admin error handling",
+        "details": "No explicit error handling found"
+      },
+      {
+        "name": "404 handling",
+        "details": "Custom 404 page not found"
+      },
+      {
+        "name": "Bundle size",
+        "details": "Bundle exceeds 500KB"
+      }
+    ],
+    "recommendations": [
+      "Add keyboard navigation (Cmd+K) to ThemeToggle",
+      "Replace 👁 emoji with screen reader friendly text in PostCard",
+      "Add semantic HTML elements (header, main, footer, article) to components",
+      "Improve ARIA labels across all components",
+      "Add error boundaries to handle unexpected errors",
+      "Create custom 404 page for better UX",
+      "Implement code splitting to reduce bundle size",
+      "Consider lazy loading non-critical components"
+    ]
+  }
+}
