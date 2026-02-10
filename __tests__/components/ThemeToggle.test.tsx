@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ThemeToggle from '@/components/ThemeToggle';
 
-// Mock useTheme hook
+// Mock next-themes
 const mockSetTheme = vi.fn();
 
-vi.mock('@/lib/theme', () => ({
+vi.mock('next-themes', () => ({
   useTheme: () => ({
     theme: 'light',
     setTheme: mockSetTheme,
-    actualTheme: 'light',
+    resolvedTheme: 'light',
   }),
 }));
 
@@ -18,81 +18,35 @@ describe('ThemeToggle Component', () => {
     mockSetTheme.mockClear();
   });
 
-  afterEach(() => {
-    cleanup();
+  it('renders a toggle button', () => {
+    render(<ThemeToggle />);
+    const button = screen.getByRole('button');
+    expect(button).toBeInTheDocument();
   });
 
-  it('renders three theme buttons', () => {
+  it('has correct aria-label', () => {
     render(<ThemeToggle />);
-    const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(3);
+    const button = screen.getByRole('button');
+    expect(button).toHaveAttribute('aria-label', 'Toggle theme');
   });
 
-  it('has correct light theme button', () => {
+  it('has an icon (SVG)', () => {
     render(<ThemeToggle />);
-    const lightButton = screen.getByLabelText(/Light theme/i);
-    expect(lightButton).toBeInTheDocument();
-  });
-
-  it('has correct dark theme button', () => {
-    render(<ThemeToggle />);
-    const darkButton = screen.getByLabelText(/Dark theme/i);
-    expect(darkButton).toBeInTheDocument();
-  });
-
-  it('has correct system theme button', () => {
-    render(<ThemeToggle />);
-    const systemButton = screen.getByLabelText(/System theme/i);
-    expect(systemButton).toBeInTheDocument();
-  });
-
-  it('calls setTheme with light on click', () => {
-    render(<ThemeToggle />);
-    const lightButton = screen.getByLabelText(/Light theme/i);
-    lightButton.click();
-    expect(mockSetTheme).toHaveBeenCalledWith('light');
-  });
-
-  it('calls setTheme with dark on click', () => {
-    render(<ThemeToggle />);
-    const darkButton = screen.getByLabelText(/Dark theme/i);
-    darkButton.click();
-    expect(mockSetTheme).toHaveBeenCalledWith('dark');
-  });
-
-  it('calls setTheme with system on click', () => {
-    render(<ThemeToggle />);
-    const systemButton = screen.getByLabelText(/System theme/i);
-    systemButton.click();
-    expect(mockSetTheme).toHaveBeenCalledWith('system');
-  });
-
-  it('has correct ARIA labels on all buttons', () => {
-    render(<ThemeToggle />);
-    const buttons = screen.getAllByRole('button');
-    buttons.forEach(button => {
-      expect(button).toHaveAttribute('aria-label');
-    });
-  });
-
-  it('has accessible icon for light theme', () => {
-    render(<ThemeToggle />);
-    const lightButton = screen.getByLabelText(/Light theme/i);
-    const icon = lightButton.querySelector('svg');
+    const button = screen.getByRole('button');
+    const icon = button.querySelector('svg');
     expect(icon).toBeInTheDocument();
   });
 
-  it('has accessible icon for dark theme', () => {
+  it('has icon with aria-hidden="true"', () => {
     render(<ThemeToggle />);
-    const darkButton = screen.getByLabelText(/Dark theme/i);
-    const icon = darkButton.querySelector('svg');
-    expect(icon).toBeInTheDocument();
+    const button = screen.getByRole('button');
+    const icon = button.querySelector('svg');
+    expect(icon).toHaveAttribute('aria-hidden', 'true');
   });
 
-  it('has accessible icon for system theme', () => {
+  it('button has proper classes for styling', () => {
     render(<ThemeToggle />);
-    const systemButton = screen.getByLabelText(/System theme/i);
-    const icon = systemButton.querySelector('svg');
-    expect(icon).toBeInTheDocument();
+    const button = screen.getByRole('button');
+    expect(button).toHaveClass('rounded-md', 'p-1.5');
   });
 });
